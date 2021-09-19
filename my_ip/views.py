@@ -37,6 +37,15 @@ def home(request):
     return render(request,'home.html', {'projects':projects})
 
 
+
+@login_required(login_url='login')
+def profile(request,current_user):
+    current_user = request.user
+
+    return render(request, 'profile.html')
+
+
+
 def my_projects(request,id):
     
     try:
