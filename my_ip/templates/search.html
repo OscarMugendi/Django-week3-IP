@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{% block content %}
+
+<div class="container">
+    <h1 style="font-family: 'Dosis', sans-serif;"><strong> Projects Found </strong></h1>
+    <div class="row">
+
+        {% if projects %}
+        <div class="container">
+            <div class="card-columns">
+
+                {% for project in projects %}
+                <div class="card border-secondary">
+                    <p>Name: {{project.name}}</p>
+                    <p>Author: {{project.user.username}}</p>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
