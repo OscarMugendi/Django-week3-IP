@@ -1,0 +1,2 @@
+
+Hello {{name}}. Welcome to the My IP community. This email is sent automatically after successful registration.

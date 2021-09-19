@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{%load bootstrap3 %}
+
+{% block styles %}
+
+{{block.super}}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Heebo" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+
+{{block.super}}
+
+<main role="main">
+    <div>
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading" style="font-size:72px;" ><b>My IP</b></h1>
+                <br>
+                <p class="lead text-muted"><i>An archive of progress.</i></p>
+                <br>
+                <br>
+            </div>
+        </section>
+    </div>
+</main>
+<br>
+<hr>
+<br>
+
+<div class="container footer">
+    <h6 style="text-align:center">
+        <i><b>A Mugendi Production.</b></i>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <b style="text-align:end">MIT License(2021).</b>
+    </h6>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{block.super}}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+
+{% endblock %}
