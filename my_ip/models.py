@@ -51,3 +51,46 @@ class Project(models.Model):
     def search_projects(cls,search_term):
         search_results=cls.objects.filter(title__icontains=search_term)
         return search_results
+
+
+
+class Profile(models.Model):
+
+    class Meta:
+        db_table = 'profile'
+
+    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+
+    bio = models.TextField(max_length=200, null=True, blank=True, default="bio")
+    profile_pic = models.ImageField(upload_to='images/profiles/', null=True, blank=True, default= 0)
+
+    project=models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
+    email = models.EmailField(default="email")
+    contact=models.IntegerField(default=0)
+
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    post_save.connect(create_user_profile, sender=User)
+
+
+    def save_profile(self):
+        self.save()
+
+    def delete_profile(self):
+        self.delete()
+
+
+    @classmethod
+    def search_profiles(cls, search_term):
+        profile_search_results = cls.objects.filter(user__username__icontains=search_term)
+        return profile_search_results
+
+    @property
+    def image_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+
+    def __str__(self):
+        return self.user.username
