@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'my_ip.apps.MyIpConfig',
     'bootstrap3',
+    'registration',
 ]
 
 MIDDLEWARE = [
