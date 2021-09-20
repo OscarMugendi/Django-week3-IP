@@ -10,7 +10,7 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('title', 'image', 'description', 'live_link', 'github_link')
+        fields = ('title', 'project_image', 'description', 'live_link', 'github_link')
 
 
 class ReviewForm(forms.ModelForm):

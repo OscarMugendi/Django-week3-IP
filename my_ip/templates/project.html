@@ -2,13 +2,13 @@
 {% block content %}
 
 <div class="container" style="margin-top:8%">
-    <h5 class="mb-4 mt-4"><b>{{ post.title }}</b> by <i>{{ post.user.username }}</i>
+    <h5 class="mb-4 mt-4"><b>{{ project.title }}</b> by <i>{{ project.user.username }}</i>
     <span> <i class="fas fa-heart"></i></span></h5>
 
     <div class="card">
         <div class="view overlay">
             <img class="card-img-top" style="visibility:hidden" width="100%"
-                 src="{{ project.photo.cdn_url }}-/crop/1440x720/center/-/quality/lightest/" alt="{{photo.title}}">
+                 src="{{ project.project_image.cdn_url }}-/crop/1440x720/center/-/quality/lightest/" alt="">
             <a href="">
                 <div class="mask rgba-black-slight">
                     <div class="container">
@@ -85,7 +85,7 @@
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ReviewForm}}
-                <button class="btn btn-sm btn-info">Review</button>
+                <button class="btn btn-sm btn-info">Rate</button>
             </form>
 
             {% endif %}

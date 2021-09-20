@@ -29,7 +29,7 @@ import datetime as dt
 
 def home(request):
     projects = Project.all_projects()
-    #reviews = Rating.get_ratings()
+    #ratings = Project.ratings.get_ratings()
     profile = Profile.get_profile()
     print(projects)
 
@@ -42,15 +42,14 @@ def home(request):
             usability = form.cleaned_data['usability']
             content = form.cleaned_data['content']
 
-            review = form.save(commit=False)
+            rating = form.save(commit=False)
 
-            review.project = project
-            #review.critic = current_user
-            review.design = design
-            review.usability = usability
-            review.content = content
+            rating.project = project
+            rating.design = design
+            rating.usability = usability
+            rating.content = content
 
-            review.save()
+            rating.save()
 
         return redirect('home')
 
@@ -70,7 +69,7 @@ def update_profile(request, username):
     user = User.objects.get(username=username)
 
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, request.FILES, request.user.profile)
         
         if profile_form.is_valid():
             profile_form.save()
@@ -78,7 +77,7 @@ def update_profile(request, username):
             return redirect('profile', user.username)
 
     else:
-        profile_form = ProfileForm(instance=request.user.profile)
+        profile_form = ProfileForm(request.user.profile)
 
     return render(request, 'update_profile.html', {'profile_form': profile_form})
 
@@ -141,7 +140,7 @@ def search_projects(request):
 
         print(results)
 
-        message = f'name'
+        message = f'title'
 
         return render(request, 'search.html',{'results': results,'message': message})
 

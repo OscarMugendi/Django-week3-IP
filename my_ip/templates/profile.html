@@ -7,22 +7,25 @@
     <div class="col-md-8">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <img src="{{user.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
+                <img src="{{user.profile.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
-                <h5 style="font-size:35px;"><b>{{user.username}}</b></h5>
+                <h5 style="font-size:35px;"><b>{{user.profile.username}}</b></h5>
                 <br>
-                <p>Email Address: {{user.email}}</p>
+                <p><b>Email Address: </b>{{user.profile.email}}</p>
                 <br>
-                <p>Contact Info: {{user.contact}}</p>
+                <p><b>Contact Info: </b>{{user.profile.contact}}</p>
                 <br>
-                <p>{{user.bio}}</p>
+                <p>{{user.profile.bio}}</p>
                 <br>
             </div>
         </div>
     </div>
     <div class="col-md-2"></div>
+    <a href="{% url 'update_profile' user.profile.username %}">
+        <button class="btn btn-primary">Update Profile</button>
+    </a>
 </div>
 
 {% endblock %}
