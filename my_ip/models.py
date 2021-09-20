@@ -11,6 +11,11 @@ import numpy as np
 # Create your models here.
 
 class Project(models.Model):
+
+    class Meta:
+        db_table = 'project'
+
+
     title=models.CharField(max_length=30)
     user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="projects")
 
@@ -88,6 +93,10 @@ class Profile(models.Model):
 
 
 class Rating(models.Model):
+    class Meta:
+        db_table = 'rating'
+
+
     rating = (
         (1, '1'),
         (2, '2'),
@@ -116,7 +125,7 @@ class Rating(models.Model):
 
     @classmethod
     def get_ratings(cls, id):
-        ratings = Rating.objects.filter(post_id=id).all()
+        ratings = Rating.objects.filter(project_id=id).all()
         return ratings
 
     def __str__(self):

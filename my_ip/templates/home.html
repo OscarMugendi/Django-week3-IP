@@ -30,6 +30,66 @@
 <hr>
 <br>
 
+<div class="container">
+    <div class="row container">
+        <div class="col-1"></div>
+        <div class="col-11">
+            {% for project in projects %}
+
+            <div class="card mr-0" style="max-width:70rem; margin-top:5px;">
+                <img src="{{Project.image.url}}" class="card-img-top">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="media-left media-top">
+                            <a href="/profile/{{project.profile.id}}" title="profile">
+                                <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" style="height: 200px;width: 200px;">
+                                <br>
+                                <br>
+                                <button class="button btn-success"><a href="{{ project.github_link }}" target="_blank">Github Repository</a></button>
+                                <br>
+                                <br>
+                                <button class="button btn-info"><a href="{{ project.live_link }}" target="_blank">Live Page</a></button>
+                            </a>
+                        </div>
+
+                        <div class="media-body">
+                            <h3 class="media-heading" style="padding:10px; margin:5px"><b>{{ project.title }}</b></h3>
+                            <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <b>{{ project.user }}</b></h4>
+                            <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
+                            <button class=" one d-flex justify-content-end" style="float:right; padding:10px; margin:5px">Votes: {{ project.ratings.count| floatformat  }}</button>
+                            <button class=" two d-flex justify-content-end" style="float:right; padding:10px; margin:5px">Design: {{ project.ratings.design_average| floatformat  }}</button>
+                            <button class=" three d-flex justify-content-end" style="float:right; padding:10px; margin:5px">Usability: {{ project.ratings.usability_average| floatformat  }}</button>
+                            <button class="four d-flex justify-content-end" style="float:right; padding:10px; margin:5px">Content: {{ project.ratings.content_average| floatformat  }}</button>
+                            <button class="four d-flex justify-content-end" style="float:right; padding:10px; margin:5px">Average Score: {{ project.ratings.score| floatformat  }}</button>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="review-section">
+                        {% for review in reviews %}
+                        {% if project.id == review.project.id %}
+                        <p>[
+                            usability: {{review.usability}},
+                            content: {{review.content}},
+                            design: {{review.design}}]
+                        </p>
+                        <p>{{ project.average_score | floatformat }}</p>
+                        {% endif %}
+                        {%endfor%}
+                    </div>
+  
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<br>
+<hr>
+<br>
 <div class="container footer">
     <h6 style="text-align:center">
         <i><b>A Mugendi Production.</b></i>

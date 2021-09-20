@@ -26,17 +26,38 @@ import datetime as dt
 
 # Create your views here.
 
-def home(request):
 
-    if request.GET.get('search_term'):
-        projects = Project.search_project(request.GET.get('search_term'))
+def home(request):
+    projects = Project.all_projects()
+    #reviews = Rating.get_ratings()
+    profile = Profile.get_profile()
+    print(projects)
+
+    current_user = request.user
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            design = form.cleaned_data['design']
+            usability = form.cleaned_data['usability']
+            content = form.cleaned_data['content']
+
+            review = form.save(commit=False)
+
+            review.project = project
+            #review.critic = current_user
+            review.design = design
+            review.usability = usability
+            review.content = content
+
+            review.save()
+
+        return redirect('home')
 
     else:
+        form = ReviewForm()
 
-        projects = Project.objects.all()
-
-    return render(request,'home.html', {'projects':projects})
-
+    return render(request,"home.html",{"projects":projects,"form": form,"profile":profile})
 
 
 @login_required(login_url='/accounts/login/')
