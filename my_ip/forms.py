@@ -1,21 +1,31 @@
-from .models import Profile, Project
+from .models import Profile, Project, Rating
 from django import forms
-from django.forms import ModelForm, Textarea, IntegerField
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.forms import ModelForm, Textarea, IntegerField, EmailField, CharField, Form, ImageField
 
 
 class ProjectForm(forms.ModelForm):
+    photo = ImageField(label='')
+
     class Meta:
         model = Project
-        exclude = ['user',]
+        fields = ('title', 'image', 'description', 'live_link', 'github_link')
 
 
 class ReviewForm(forms.ModelForm):
     class Meta:
-        model = Project
-        fields = [ 'usability', 'design', 'content']
+        model = Rating
+        fields = ['design', 'usability', 'content']
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(forms.Form):
     class Meta:
         model = Profile
-        exclude = ['user',]
+        fields = ['username', 'profile_pic', 'bio', 'email', 'contact']
+
+    # username = forms.CharField(label='Username',max_length = 30)
+    # profile_pic = forms.ImageField(label = 'Image Field') 
+    # bio = forms.CharField(label='Bio',max_length=300)
+    # email = forms.EmailField(label='Email')
+    # contact = forms.IntegerField(label='Contact')

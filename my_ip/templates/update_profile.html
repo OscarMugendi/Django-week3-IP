@@ -1,38 +1,23 @@
-{%extends "base.html"%}
+{%extends 'base.html'%}
 {% load bootstrap3 %}
-{%load static%}
-{% load staticfiles %}
-{% block content %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{%block content%}
 
-    <title>Update Profile</title>
+<div class="container">
+    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
 
-    {{form.media}}
-
-    {% block styles %}
-    {% bootstrap_css %}
-    {% endblock %}
-</head>
-
-<body>
-<div class="container" style="background-color:#fff;">
-    <div class="row">
-        <form  action="{%url 'update_profile'%}" method="post" enctype="multipart/form-data">
-            {%csrf_token%}
-            {% bootstrap_form form%}
-            <input id="id_myfield" type="submit" class="btn btn-success btn-lg" value="Post">
+    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6 col-xl-6">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form layout='inline'%}
+            <input type="submit" class="btn btn-primary btn-sm" value="Submit">
+            <input type="hidden" name="next" value="{{next}}">
         </form>
-
-    {% block scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    {% bootstrap_javascript %}
-    {% endblock %}
-
+        <br>
+        <p><a href="{% url 'profile' %}">Back to Profile</a></p>
     </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
 </div>
-</body>
 
 {% endblock %}

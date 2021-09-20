@@ -7,7 +7,7 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.http  import HttpResponse, Http404, JsonResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.http  import Http404
+from django.http  import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.defaulttags import register
@@ -16,9 +16,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+from django.contrib.auth import login, authenticate
 from .email import send_welcome_email
 
-from .models import Profile, Project
+from .models import Profile, Project, Rating
 from .forms import ProfileForm, ReviewForm, ProjectForm
 
 import datetime as dt
@@ -38,114 +39,93 @@ def home(request):
 
 
 
-@login_required(login_url='login')
-def profile(request,current_user):
-    current_user = request.user
-
+@login_required(login_url='/accounts/login/')
+def profile(request, username):
     return render(request, 'profile.html')
 
 
-
-def my_projects(request,id):
-    
-    try:
-        project = Project.objects.get(pk = id)
-
-    except DoesNotExist:
-
-        raise Http404()
-
-    current_user = request.user
-    reviews = Review.objects.all()
+@login_required(login_url='/accounts/login/')
+def update_profile(request, username):
+    user = User.objects.get(username=username)
 
     if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        
+        if profile_form.is_valid():
+            profile_form.save()
 
+            return redirect('profile', user.username)
+
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    return render(request, 'update_profile.html', {'profile_form': profile_form})
+
+
+@login_required(login_url='/accounts/login/')
+def project(request, post):
+    project = Project.objects.get(title=project)
+    ratings = Rating.objects.filter(user=request.user, project=project).first()
+    rating_status = None
+
+    if ratings is None:
+        rating_status = False
+
+    else:
+        rating_status = True
+
+    if request.method == 'POST':
         form = ReviewForm(request.POST)
 
         if form.is_valid():
-            
-            design_rating = form.cleaned_data['design']
-            content_rating = form.cleaned_data['content']
-            usability_rating = form.cleaned_data['usability']
+            rate = form.save(commit=False)
+            rate.user = request.user
+            rate.project = project
+            rate.save()
+            project_ratings = Rating.objects.filter(project=project)
 
-            review = Review()
-            review.project = project
-            review.user = current_user
+            design_ratings = [d.design for d in project_ratings]
+            design_average = sum(design_ratings) / len(design_ratings)
 
-            review.design_rating = design_rating
-            review.content_rating = content_rating
-            review.usability_rating = usability_rating
+            usability_ratings = [us.usability for us in project_ratings]
+            usability_average = sum(usability_ratings) / len(usability_ratings)
 
-            review.save()
+            content_ratings = [content.content for content in project_ratings]
+            content_average = sum(content_ratings) / len(content_ratings)
+
+            score = (design_average + usability_average + content_average) / 3
+
+            print(score)
+
+            rate.design_average = round(design_average, 2)
+            rate.usability_average = round(usability_average, 2)
+            rate.content_average = round(content_average, 2)
+            rate.score = round(score, 2)
+            rate.save()
+
+            return HttpResponseRedirect(request.path_info)
 
     else:
         form = ReviewForm()
 
-    return render(request, 'image.html', {"project": project, 'form':form, 'reviews':reviews})
-
-
-
-@login_required(login_url='/accounts/login/')
-def new_project(request):
-    current_user = request.user
-
-    if request.method == 'POST':
-
-        form = ProjectForm(request.POST, request.FILES)
-
-        if form.is_valid():
-
-            project = form.save(commit=False)
-            project.user = current_user
-            project.save()
-
-        return redirect('home')
-
-    else:
-
-        form = ProjectForm()
-
-    return render(request, 'new_project.html', {"form": form})
-
-
-
-@login_required(login_url='/accounts/login/')
-def update_profile(request):
-    current_user = request.user
-
-    if request.method == 'POST':
-
-        form = ProfileForm(request.POST, request.FILES, instance=current_user.profile)
-
-        print(form.is_valid())
-
-        if form.is_valid():
-
-            image = form.save(commit=False)
-            image.user = current_user
-            image.save()
-
-        return redirect('home')
-
-    else:
-
-        form = ProfileForm()
-
-    return render(request, 'update_profile.html', {"form": form})
-
+    return render(request, 'project.html',{'project': project,'ReviewForm': form,'rating_status': rating_status})
 
 
 def search_projects(request):
-    
-    if 'project' in request.GET and request.GET["project"]:
 
-        search_term = request.GET.get("project")
-        searched_projects = Project.search_projects(search_term)
-        message = f"{search_term}"
+    if request.method == 'GET':
 
-        return render(request, 'search.html', {"message": message, "projects": searched_projects})
+        title = request.GET.get("title")
+        results = Project.objects.filter(title__icontains=title).all()
+
+        print(results)
+
+        message = f'name'
+
+        return render(request, 'search.html',{'results': results,'message': message})
 
     else:
-        message = "Invalid search parameters!"
-        
-        return render(request, 'search.html', {"message": message})
+
+        message = "Invalid Parameters!"
+
+    return render(request, 'search.html', {'message': message})

@@ -1,13 +1,15 @@
 from django.conf.urls import url
+from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     url('^$', views.home, name='home'),
-    url(r'project/new/',views.new_project,name='new_project'),
-    url(r'^profile/',views.profile,name='profile'),
-    url(r'^profile/update',views.profile,name='update_profile'),
+    path('account/', include('django.contrib.auth.urls')),
+    path('profile/<username>/', views.profile, name='profile'),
+    path('profile/<username>/update', views.update_profile, name='update_profile'),
+    path('project/<project>', views.project, name='project'),
     url('search/',views.search_projects,name="search"),
 ]
 
