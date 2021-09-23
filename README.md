@@ -15,6 +15,7 @@ A Django application designed to rate, review and archive user projects.
 - Django
 - django-bootstrap3
 - django-registration-redux
+- djangorestframework
 - Pillow
 - psycopg2-binary
 - python-decouple
