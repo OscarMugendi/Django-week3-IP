@@ -29,8 +29,6 @@ class Project(models.Model):
     class Meta:
         ordering=['-title']
 
-    def __str__(self):
-        return f'{self.title}'
 
     def delete_project(self):
         self.delete()
@@ -46,6 +44,9 @@ class Project(models.Model):
     def save_project(self):
         self.save()
 
+    def __str__(self):
+        return self.title
+
 
 
 class Profile(models.Model):
@@ -53,10 +54,10 @@ class Profile(models.Model):
         db_table = 'profile'
 
     user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    username = models.CharField(max_length=30, blank=True, default='user')
+    #username = models.CharField(max_length=30, blank=True, default='user')
 
     bio = models.CharField(max_length=500, null=True, blank=True, default="bio")
-    #profile_pic = models.ImageField(upload_to='images/profiles/', blank=True)
+    profile_pic = models.ImageField(upload_to='images/profiles/', blank=True, default = 0)
 
     project=models.ForeignKey(Project, null=True, blank=True, on_delete=models.CASCADE)
     email = models.EmailField(blank=True, default="email")
@@ -78,7 +79,9 @@ class Profile(models.Model):
     def get_profile(cls):
         profile = Profile.objects.all()
 
-        return profile
+
+    def __str__(self):
+        return self.user.username
         
 
 

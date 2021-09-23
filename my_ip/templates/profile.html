@@ -18,7 +18,7 @@
             {% endif %}
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
-                <h5 style="font-size:35px;"><b>{{user.profile.username}}</b></h5>
+                <h5 style="font-size:35px;"><b>{{user.username}}</b></h5>
                 <br>
                 <p><b>Email Address: </b>{{user.profile.email}}</p>
                 <br>
@@ -57,7 +57,7 @@
 
                     <div class="media-body">
                         <h3 class="media-heading" style="padding:10px; margin:5px"> <a href="/project/{{project.title}}"> <b>{{ project.title }}</b></a></h3>
-                        <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.username}}"><b>{{ project.user.profile.username }}</b></a></h4>
+                        <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.username}}"><b>{{ project.user.username }}</b></a></h4>
                         <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
                     </div>
                 </div>

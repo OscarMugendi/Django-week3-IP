@@ -51,12 +51,12 @@
             {% for project in projects %}
             <br>
             <div class="card mr-0" style="max-width:70rem; margin-top:5px;">
-                <div class="card-body">
+                <div class="container">
                     <div class="media">
                         <div class="media-left media-top">
                             
                             {% if project.project_image %}                       
-                            <img class="img-fluid rounded-circle" src="{{project.project_image.url}}" style="height: 300px;width: 300px;">
+                            <img class="img-fluid rounded-circle" src="{{project.project_image.url}}" style="height: 300px;width: 400px;">
                             <br>
                             <br>
                             {% endif %}

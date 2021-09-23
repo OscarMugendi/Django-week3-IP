@@ -63,13 +63,13 @@ def update_profile(request,username):
             form = ProfileForm(request.POST,request.FILES)
 
             if form.is_valid():
-                requested_profile.username = form.cleaned_data['username']
-                #requested_profile.profile_pic = form.cleaned_data['profile_photo']
+                #requested_profile.username = form.cleaned_data['username']
+                requested_profile.profile_pic = form.cleaned_data['profile_photo']
                 requested_profile.bio = form.cleaned_data['bio']
                 requested_profile.email = form.cleaned_data['email']
                 requested_profile.contact = form.cleaned_data['contact']
                 requested_profile.user_id= current_user
-                #requested_profile.image_id = current_image
+                requested_profile.image_id = current_image
 
                 requested_profile.save_profile()
 
@@ -85,7 +85,7 @@ def update_profile(request,username):
 
             if form.is_valid():
 
-                new_profile = Profile(username = form.cleaned_data['username'], bio = form.cleaned_data['bio'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
+                new_profile = Profile(profile_pic = form.cleaned_data['profile_pic'], bio = form.cleaned_data['bio'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
                 new_profile.save_profile()
 
                 return redirect(profile)
