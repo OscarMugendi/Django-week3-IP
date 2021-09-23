@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'my_ip.apps.MyIpConfig',
     'bootstrap3',
     'registration',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

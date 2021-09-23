@@ -24,6 +24,10 @@ from .forms import ProfileForm, ProjectForm
 
 import datetime as dt
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProfileSerializer, ProjectSerializer
+
 # Create your views here.
 
 
@@ -204,3 +208,15 @@ def new_project(request):
 #         form = ReviewForm()
 
 #         return render(request,'review.html',{"user":current_user,"form":form})
+
+class ProfileView(APIView):
+    def get(self, request, format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles, many=True)
+        return Response(serializers.data)
+
+class ProjectView(APIView):
+    def get(self, request, format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects, many=True)
+        return Response(serializers.data)
