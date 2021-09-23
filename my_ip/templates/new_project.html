@@ -1,37 +1,28 @@
-{%extends "base.html"%}
+{% extends 'base.html' %}
 {% load bootstrap3 %}
-{%load static%}
-{% block content %}
 
+{%block content%}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="text-center"><b>New Project</b></h3>
+        </div>
+        <br>
 
-    <title>New Project</title>
-    {{form.media}}
-
-    {% block styles %}
-        {% bootstrap_css %}
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    {% endblock %}
-
-</head>
-
-<body>
-<div class="container" style="background-color:#fff;">
-    <div class="row">
-        <form  action="{%url 'new_project'%}" method="post" style="font-family: 'Dosis', sans-serif;" enctype="multipart/form-data">
-            {%csrf_token%}
-            {% bootstrap_form form%}
-            <input id="id_myfield" type="submit" class="btn btn-success btn-lg" value="Post">
-        </form>
-        {% block scripts %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-            {% bootstrap_javascript %}
-        {% endblock %}
+        <div class="panel-body">
+            <form action="/project/new/" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-sm" value="Post">
+                </div>
+                <input type="hidden" name="next" value="{{next}}">
+            </form>
+        </div>
+    
+        <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
     </div>
 </div>
-</body>
 
 {% endblock %}

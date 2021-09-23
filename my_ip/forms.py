@@ -6,11 +6,16 @@ from django.forms import ModelForm, Textarea, IntegerField, EmailField, CharFiel
 
 
 class ProjectForm(forms.ModelForm):
-    photo = ImageField(label='')
-
     class Meta:
         model = Project
-        fields = ('title', 'project_image', 'description', 'live_link', 'github_link')
+
+        fields = ['title', 'project_image', 'description', 'live_link', 'github_link']
+
+    # title = forms.CharField(label='Title',max_length = 30)
+    # project_image = forms.ImageField(label = 'Image Field') 
+    # description = forms.CharField(label='Description',max_length=320)
+    # live_link = forms.URLField(label='Live Link')
+    # github_link = forms.URLField(label='Github Link')
 
 
 class ReviewForm(forms.ModelForm):

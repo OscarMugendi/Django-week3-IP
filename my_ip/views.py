@@ -71,23 +71,6 @@ def profile(request, username):
     return render(request, 'profile.html', {"user":user,"profile":profile})
 
 
-# @login_required(login_url='/accounts/login/')
-# def update_profile(request, username):
-#     user = User.objects.get(username=username)
-
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST, request.FILES, request.user.profile)
-        
-#         if form.is_valid():
-#             form.save()
-
-#             return redirect('profile', user.username)
-
-#     else:
-#         form = ProfileForm(request.user.profile)
-
-#     return render(request, 'update_profile.html', {'form': form})
-
 @login_required(login_url='/accounts/login/')
 def update_profile(request,username):
     current_user = request.user 
@@ -120,7 +103,7 @@ def update_profile(request,username):
 
             if form.is_valid():
 
-                new_profile = Profile(username = form.cleaned_data['username'], profile_pic= form.cleaned_data['profile_pic'],bio = form.cleaned_data['bio'],  email = form.cleaned_data['email'], contact = form.cleaned_data['contact'],user = current_user)
+                new_profile = Profile(username = form.cleaned_data['username'], profile_pic= form.cleaned_data['profile_pic'], bio = form.cleaned_data['bio'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
                 new_profile.save_profile()
 
                 return redirect(profile)
@@ -130,7 +113,6 @@ def update_profile(request,username):
             form = ProfileForm()
 
     return render(request,'update_profile.html',{"title":title,"current_user":current_user,"form":form})
-
 
 
 @login_required(login_url='/accounts/login/')
@@ -200,3 +182,48 @@ def search_projects(request):
         message = "Invalid Parameters!"
 
     return render(request, 'search.html', {'message': message})
+
+
+@login_required(login_url='/accounts/login/')
+def new_project(request):
+    current_user = request.user 
+    title = 'New Project'
+    try:
+
+        new_project = Project.objects.get(project_id = project.id)
+        
+        if request.method == 'POST':
+
+            form = ProjectForm(request.POST,request.FILES)
+
+            if form.is_valid():
+                new_project.title = form.cleaned_data['title']
+                new_project.project_image = form.cleaned_data['project_image']
+                new_project.description = form.cleaned_data['description']
+                new_project.live_link = form.cleaned_data['live_link']
+                new_project.github_link = form.cleaned_data['github_link']
+
+                new_project.save_project()
+
+                return redirect(home)
+        else:
+            
+            form = ProjectForm()
+
+    except:
+        if request.method == 'POST':
+
+            form = ProjectForm(request.POST,request.FILES)
+
+            if form.is_valid():
+
+                ex_new_project = Project(title = form.cleaned_data['title'], project_image= form.cleaned_data['project_image'], description = form.cleaned_data['description'], live_link = form.cleaned_data['live_link'], github_link = form.cleaned_data['github_link'], user = current_user)
+                ex_new_project.save_project()
+
+                return redirect(home)
+
+        else:
+
+            form = ProjectForm()
+
+    return render(request,'new_project.html',{"title":title,"current_user":current_user,"form":form})

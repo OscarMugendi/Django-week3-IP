@@ -90,9 +90,13 @@
     <h3 style="text-align:center">Profile has not yet been created.</h3>
     <br>
     <br>
+    {% if profile.user == current_user%}
+
     <a href="{% url 'update_profile' user.username %}">
         <button class="btn btn-primary">Create Profile</button>
     </a>
+
+    {% endif %}
 </div>
 
 {% endif %}
