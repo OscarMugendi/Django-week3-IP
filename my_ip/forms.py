@@ -11,12 +11,6 @@ class ProjectForm(forms.ModelForm):
 
         fields = ['title', 'project_image', 'description', 'live_link', 'github_link']
 
-    # title = forms.CharField(label='Title',max_length = 30)
-    # project_image = forms.ImageField(label = 'Image Field') 
-    # description = forms.CharField(label='Description',max_length=320)
-    # live_link = forms.URLField(label='Live Link')
-    # github_link = forms.URLField(label='Github Link')
-
 
 # class ReviewForm(forms.ModelForm):
 #     class Meta:
@@ -25,8 +19,13 @@ class ProjectForm(forms.ModelForm):
 
 
 class ProfileForm(forms.Form):
+    # class Meta:
+    #     model = Profile
+
+    #     fields = ['username', 'profile_pic', 'bio', 'email', 'contact']
+
     username = forms.CharField(label='Username',max_length = 30)
-    profile_pic = forms.ImageField(label = 'Image Field') 
+    #profile_pic = forms.ImageField(label = 'Image Field') 
     bio = forms.CharField(label='Bio',max_length=300)
     email = forms.EmailField(label='Email')
     contact = forms.IntegerField(label='Contacts')

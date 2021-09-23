@@ -8,9 +8,14 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="row">
+            
+            {% if user.profile.profile_pic %}
+
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <img src="{{user.profile.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
             </div>
+
+            {% endif %}
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
                 <h5 style="font-size:35px;"><b>{{user.profile.username}}</b></h5>
@@ -41,7 +46,7 @@
             <div class="card-body">
                 <div class="media">
                     <div class="media-left media-top">
-                        <img class="img-fluid rounded-circle" src="{{project.user.profile.profile_pic.url}}" style="height: 300px;width: 300px;">
+                        <img class="img-fluid rounded-circle" src="{{project.project_image.url}}" style="height: 300px;width: 300px;">
                         <br>
                         <br>
                         <button class="button btn-success"><a href="{{ project.github_link }}" target="_blank">Github Repository</a></button>
@@ -54,29 +59,11 @@
                         <h3 class="media-heading" style="padding:10px; margin:5px"> <a href="/project/{{project.title}}"> <b>{{ project.title }}</b></a></h3>
                         <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.username}}"><b>{{ project.user.profile.username }}</b></a></h4>
                         <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
-                        <button class=" two d-flex justify-content-end btn-lg btn-success" style="float:right; padding:10px; margin:5px">Design: {{ project.ratings.design_average| floatformat  }}</button>
-                        <button class=" three d-flex justify-content-end btn-lg btn-success" style="float:right; padding:10px; margin:5px">Usability: {{ project.ratings.usability_average| floatformat  }}</button>
-                        <button class="four d-flex justify-content-end btn-lg btn-success" style="float:right; padding:10px; margin:5px">Content: {{ project.ratings.content_average| floatformat  }}</button>
-                        <button class=" one d-flex justify-content-end btn-primary btn-lg" style="float:right; padding:10px; margin:5px">Votes: {{ project.ratings.count| floatformat  }}</button>
-                        <button class="five d-flex justify-content-end btn-danger btn-lg" style="float:right; padding:10px; margin:5px">Average Score: {{ project.ratings.score| floatformat  }}</button>
                     </div>
                 </div>
                 <br>
                 <hr>
                 <br>
-                <div class="rating-section">
-                    {% for rating in ratings %}
-                    {% if project.id == ratings.project.id %}
-                    <p>[
-                        Usability: {{rating.usability}},
-                        Content: {{rating.content}},
-                        Design: {{rating.design}}]
-                    </p>
-                    <p>{{ project.average_score | floatformat }}</p>
-                    {% endif %}
-                    {%endfor%}
-                </div>
-
             </div>
         </div>
         {% endfor %}

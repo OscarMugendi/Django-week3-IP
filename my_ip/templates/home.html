@@ -54,9 +54,13 @@
                 <div class="card-body">
                     <div class="media">
                         <div class="media-left media-top">
-                            <img class="img-fluid rounded-circle" src="{{project.user.profile.profile_pic.url}}" style="height: 300px;width: 300px;">
+                            
+                            {% if project.project_image %}                       
+                            <img class="img-fluid rounded-circle" src="{{project.project_image.url}}" style="height: 300px;width: 300px;">
                             <br>
                             <br>
+                            {% endif %}
+                            
                             <button class="button btn-success"><a href="{{ project.github_link }}" target="_blank">Github Repository</a></button>
                             <br>
                             <br>
