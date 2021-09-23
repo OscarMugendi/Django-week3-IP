@@ -19,8 +19,8 @@ from django.core.mail import EmailMessage
 from django.contrib.auth import login, authenticate
 from .email import send_welcome_email
 
-from .models import Profile, Project, Rating
-from .forms import ProfileForm, ReviewForm, ProjectForm
+from .models import Profile, Project
+from .forms import ProfileForm, ProjectForm
 
 import datetime as dt
 
@@ -29,40 +29,20 @@ import datetime as dt
 
 def home(request):
     projects = Project.all_projects()
-    #ratings = Project.ratings.get_ratings()
-    profile = Profile.get_profile()
-    #print(projects)
-
     current_user = request.user
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
 
-        if form.is_valid():
-            design = form.cleaned_data['design']
-            usability = form.cleaned_data['usability']
-            content = form.cleaned_data['content']
+    print(projects)
 
-            rating = form.save(commit=False)
-
-            rating.project = project
-            rating.design = design
-            rating.usability = usability
-            rating.content = content
-
-            rating.save()
-
-        return redirect('home')
-
-    else:
-        form = ReviewForm()
-
-    return render(request,"home.html",{"projects":projects,"form": form,"profile":profile})
+    return render(request,"home.html",{"projects":projects})
 
 
 @login_required(login_url='/accounts/login/')
 def profile(request, username):
     try:
         user = User.objects.get(username=username)
+        profile_data = user.profile.objects.get()
+
+        print(profile_data)
 
     except:
 
@@ -115,53 +95,19 @@ def update_profile(request,username):
     return render(request,'update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
 
-@login_required(login_url='/accounts/login/')
-def project(request, post):
-    project = Project.objects.get(title=project)
-    ratings = Rating.objects.filter(user=request.user, project=project).first()
-    rating_status = None
+def project(request, title):
 
-    if ratings is None:
-        rating_status = False
+    try:
+        current_project = Project.objects.get(title=title)
+        project_data = current_project.objects.get()
 
-    else:
-        rating_status = True
+        print(project_data)
 
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
+    except:
 
-        if form.is_valid():
-            rate = form.save(commit=False)
-            rate.user = request.user
-            rate.project = project
-            rate.save()
-            project_ratings = Rating.objects.filter(project=project)
+        raise Http404()
 
-            design_ratings = [d.design for d in project_ratings]
-            design_average = sum(design_ratings) / len(design_ratings)
-
-            usability_ratings = [us.usability for us in project_ratings]
-            usability_average = sum(usability_ratings) / len(usability_ratings)
-
-            content_ratings = [content.content for content in project_ratings]
-            content_average = sum(content_ratings) / len(content_ratings)
-
-            score = (design_average + usability_average + content_average) / 3
-
-            print(score)
-
-            rate.design_average = round(design_average, 2)
-            rate.usability_average = round(usability_average, 2)
-            rate.content_average = round(content_average, 2)
-            rate.score = round(score, 2)
-            rate.save()
-
-            return HttpResponseRedirect(request.path_info)
-
-    else:
-        form = ReviewForm()
-
-    return render(request, 'project.html',{'project': project,'ReviewForm': form,'rating_status': rating_status})
+    return render(request, 'project.html', {"current_project":current_project})
 
 
 def search_projects(request):
@@ -191,7 +137,7 @@ def new_project(request):
     try:
 
         new_project = Project.objects.get(project_id = project.id)
-        
+
         if request.method == 'POST':
 
             form = ProjectForm(request.POST,request.FILES)
@@ -202,6 +148,8 @@ def new_project(request):
                 new_project.description = form.cleaned_data['description']
                 new_project.live_link = form.cleaned_data['live_link']
                 new_project.github_link = form.cleaned_data['github_link']
+                new_project.user_id= current_user
+                new_project.image_id = current_image
 
                 new_project.save_project()
 
@@ -227,3 +175,30 @@ def new_project(request):
             form = ProjectForm()
 
     return render(request,'new_project.html',{"title":title,"current_user":current_user,"form":form})
+
+
+# @login_required(login_url='/accounts/login/')
+# def add_review(request):
+#     project = Project.objects.get()
+#     current_user = request.user
+#     if request.method == 'POST':
+
+#         form = ReviewForm(request.POST)
+
+#         if form.is_valid():
+#             design = form.cleaned_data['design']
+#             usability = form.cleaned_data['usability']
+#             content = form.cleaned_data['content']
+#             review = form.save(commit=False)
+#             review.project = project
+#             review.design = design
+#             review.usability = usability
+#             review.content = content
+#             review.save()
+
+#             return redirect('home')
+#     else:
+
+#         form = ReviewForm()
+
+#         return render(request,'review.html',{"user":current_user,"form":form})

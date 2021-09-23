@@ -1,4 +1,4 @@
-from .models import Profile, Project, Rating
+from .models import Profile, Project
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -18,10 +18,10 @@ class ProjectForm(forms.ModelForm):
     # github_link = forms.URLField(label='Github Link')
 
 
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Rating
-        fields = ['design', 'usability', 'content']
+# class ReviewForm(forms.ModelForm):
+#     class Meta:
+#         model = Rating
+#         fields = ['design', 'usability', 'content']
 
 
 class ProfileForm(forms.Form):

@@ -17,7 +17,7 @@ class Project(models.Model):
 
 
     title=models.CharField(max_length=30)
-    user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="projects")
+    user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="project")
 
     project_image=models.ImageField(upload_to='images/projects/', blank=True)
     description=models.TextField(max_length=320, blank=True)
@@ -82,41 +82,41 @@ class Profile(models.Model):
         
 
 
-class Rating(models.Model):
-    class Meta:
-        db_table = 'rating'
+# class Rating(models.Model):
+#     class Meta:
+#         db_table = 'rating'
 
 
-    rating = (
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-        (6, '6'),
-        (7, '7'),
-        (8, '8'),
-        (9, '9'),
-        (10, '10'),
-    )
+#     rating = (
+#         (1, '1'),
+#         (2, '2'),
+#         (3, '3'),
+#         (4, '4'),
+#         (5, '5'),
+#         (6, '6'),
+#         (7, '7'),
+#         (8, '8'),
+#         (9, '9'),
+#         (10, '10'),
+#     )
 
-    design = models.IntegerField(choices=rating, default=0, blank=True)
-    usability = models.IntegerField(choices=rating, blank=True)
-    content = models.IntegerField(choices=rating, blank=True)
-    score = models.FloatField(default=0, blank=True)
-    design_average = models.FloatField(default=0, blank=True)
-    usability_average = models.FloatField(default=0, blank=True)
-    content_average = models.FloatField(default=0, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='author')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings', null=True)
+#     design = models.IntegerField(choices=rating, default=0, blank=True)
+#     usability = models.IntegerField(choices=rating, blank=True)
+#     content = models.IntegerField(choices=rating, blank=True)
+#     score = models.FloatField(default=0, blank=True)
+#     design_average = models.FloatField(default=0, blank=True)
+#     usability_average = models.FloatField(default=0, blank=True)
+#     content_average = models.FloatField(default=0, blank=True)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user')
+#     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='rating', null=True)
 
-    def save_rating(self):
-        self.save()
+#     def save_rating(self):
+#         self.save()
 
-    @classmethod
-    def get_ratings(cls, id):
-        ratings = Rating.objects.filter(project_id=id).all()
-        return ratings
+#     @classmethod
+#     def get_ratings(cls, id):
+#         ratings = Rating.objects.filter(project_id=id).all()
+#         return ratings
 
-    def __str__(self):
-        return f'{self.project} Rating'
+#     def __str__(self):
+#         return f'{self.project} Rating'

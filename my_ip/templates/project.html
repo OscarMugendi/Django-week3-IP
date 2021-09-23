@@ -9,87 +9,19 @@
         <div class="view overlay">
             <img class="card-img-top" style="visibility:hidden" width="100%"
                  src="{{ project.project_image.cdn_url }}-/crop/1440x720/center/-/quality/lightest/" alt="">
-            <a href="">
-                <div class="mask rgba-black-slight">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6 d-flex flex-row mx-auto" style="margin-top:20%">
-                                {% for rating in project.ratings.all %}
-
-                                {% if forloop.counter is project.ratings.all.count %}
-
-                                <div id="design">{{ rating.design_average}}<br>
-                                    <span class="rates">Design</span>
-                                </div>
-                                <div id="usable" class="mx-auto">{{ rating.usability_average }}<br>
-                                    <span class="rates">Usability</span>
-                                </div>
-                                <div id="contente">{{ rating.content_average }}<br>
-                                    <span class="rates">Content</span>
-                                </div>
-
-                                {% endif %}
-
-                                {% endfor %}
-                            </div>
-
-                            <div class="col-md-3"></div>
-                        </div>
-                    </div>
-                </div>
-            </a>
         </div>
+        
         <div class="card-body">
-            <h5 class="card-title"><strong>{{project.title|title}}</strong>
+            <h5 class="card-title"><strong>{{project.title}}</strong>
                 <a href="{{ project.live_link }}" style="float:right" class="btn btn-sm btn-info mr-4"> Live Page </a>
                 <a href="{{ project.github_link }}" style="float:right" class="btn btn-sm btn-info mr-4"> Github Repository </a></h5>
-            <p>by <span><a href="{% url 'profile' profile.user.username %}" id="usern" class="mr-2">{{ profile.user.username|title }}</a></span>
+            <p>by <span><a href="{% url 'profile' project.user.username %}" id="usern" class="mr-2">{{ project.user.username}}</a></span>
             </p>
             <p>{{ project.description }}</p>
             <hr>
             <p class="card-text "><img src="{{project.user.profile.profile_pic.url}}" class="nav-img mr-2" alt="">
-                By {{project.user.username|title}} <span style="float:right">{{project.date|date}}</span>
+                By {{project.user.username}} <span style="float:right">{{project.date|date}}</span>
             </p>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <h3 class="D-block mx-auto">Ratings</h3>
-                    {% for rating in project.ratings.all %}
-
-                    {% if forloop.counter is project.ratings.all.count %}
-
-                    <a class="btn btn-info btn-sm" ><h5>{{ rating.score }}</h5>
-                        <span class="sc">Average Score</span>
-                    </a>
-                    <a class="btn btn-outline-success btn-sm" ><h5>{{ rating.design_average }}</h5>
-                        <span class="sc">Design Average</span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" id="u"><h5>{{ rating.usability_average }}</h5>
-                        <span class="sc">Usability Average</span>
-                    </a>
-                    <a class="btn btn-outline-danger btn-sm" id="c"><h5>{{ rating.content_average }}</h5>
-                        <span class="sc">Content Average</span>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col-md-2"></div>
-            </div>
-
-            {% if rating_status %}
-            <h5>Already Reviewed.</h5>
-            {% else %}
-
-            {% if user.is_authenticated %}
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ReviewForm}}
-                <button class="btn btn-sm btn-info">Rate</button>
-            </form>
-
-            {% endif %}
-            {% endif %}
         </div>
 
     </div>
