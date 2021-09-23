@@ -21,11 +21,20 @@
                 <br>
                 <p class="lead text-muted"><i>An Archive of Intellectual Property.</i></p>
                 <br>
-                <br>
             </div>
         </section>
     </div>
 </main>
+<hr>
+<br>
+{% if user.is_authenticated%}
+
+<div class="container text-center">
+    <a href="{% url 'update_profile' user.username%}">
+        <button class="btn btn-info btn-lg">Update your Profile</button>
+    </a>
+</div>
+<br>
 <br>
 <hr>
 <br>
@@ -33,7 +42,7 @@
 <div class="container">
     <div class="row container">
         <div class="col-1">
-            <h1 style="text-align:center"><b>Archives</b></h1>
+            <h1 style="text-align:center"><b>Project Archives</b></h1>
         </div>
         <br>
         <hr>
@@ -88,6 +97,20 @@
         </div>
     </div>
 </div>
+
+{% else %}
+
+<div class="container">
+    <div class="row container">
+        <div class="col-1">
+            <h1 style="text-align:center; color:rgb(116, 1, 1)"><b><u>Access Denied!</u></b></h1>
+            <br>
+            <h4 style="text-align:center"><i>Please log in to access this site.</i></h4>
+        </div>
+    </div>
+</div>
+
+{% endif %}
 
 <br>
 <hr>

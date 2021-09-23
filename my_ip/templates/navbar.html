@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}"><b>Home</b>&nbsp;&nbsp;</a>
 
-        {% if user.is_authenticated%}
+        {% if user.is_authenticated %}
         <a class="navbar-brand" href="{% url 'profile' user.username %}"><b>Profile</b>&nbsp;&nbsp;&nbsp;&nbsp;</a>
         <a class="navbar-brand" href="{% url 'logout' %}"><b style="color:red">Logout</b>&nbsp;&nbsp;&nbsp;&nbsp;</a>
 

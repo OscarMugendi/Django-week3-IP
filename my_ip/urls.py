@@ -8,8 +8,8 @@ urlpatterns = [
     url('^$', views.home, name='home'),
     path('account/', include('django.contrib.auth.urls')),
     path('profile/<username>/', views.profile, name='profile'),
-    path('profile/<username>/update', views.update_profile, name='update_profile'),
-    path('project/<title>', views.project, name='project'),
+    path('profile/<username>/update/', views.update_profile, name='update_profile'),
+    path('project/<title>/', views.project, name='project'),
     url('search/',views.search_projects,name="search"),
 ]
 

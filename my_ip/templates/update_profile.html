@@ -1,23 +1,29 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 {% load bootstrap3 %}
 
 {%block content%}
 
 <div class="container">
-    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="text-center"><b>Update Profile</b></h3>
+        </div>
 
-    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6 col-xl-6">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form form layout='inline'%}
-            <input type="submit" class="btn btn-primary btn-sm" value="Submit">
-            <input type="hidden" name="next" value="{{next}}">
-        </form>
-        <br>
-        <p><a href="{% url 'profile' user.profile.username %}">Back to Profile</a></p>
+        <div class="panel-body">
+            <form action="/profile/<username>/update/" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-sm" value="Update">
+                </div>
+                <input type="hidden" name="next" value="{{next}}">
+            </form>
+            <br>
+            <p><a href="{% url 'profile' user.profile.username %}">Back to Profile</a></p>
+        </div>
+    
+        <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
     </div>
-
-    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
 </div>
 
 {% endblock %}

@@ -61,7 +61,14 @@ def home(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request, username):
-    return render(request, 'profile.html')
+    try:
+        user = Profile.objects.get(username=username)
+
+    except:
+
+        raise Http404()
+
+    return render(request, 'profile.html', {"user":user,"profile":profile})
 
 
 @login_required(login_url='/accounts/login/')
@@ -69,17 +76,17 @@ def update_profile(request, username):
     user = User.objects.get(username=username)
 
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, request.FILES, request.user.profile)
+        form = ProfileForm(request.POST, request.FILES, request.user.profile)
         
-        if profile_form.is_valid():
-            profile_form.save()
+        if form.is_valid():
+            form.save()
 
             return redirect('profile', user.username)
 
     else:
-        profile_form = ProfileForm(request.user.profile)
+        form = ProfileForm(request.user.profile)
 
-    return render(request, 'update_profile.html', {'profile_form': profile_form})
+    return render(request, 'update_profile.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')

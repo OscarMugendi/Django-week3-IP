@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if profile %}
+
 <div class="container">
     <br>
     <div class="col-md-2"></div>
@@ -15,7 +17,7 @@
                 <br>
                 <p><b>Email Address: </b>{{user.profile.email}}</p>
                 <br>
-                <p><b>Contact Info: </b>{{user.profile.contact}}</p>
+                <p><b>Contact Info: </b>0/{{user.profile.contact}}</p>
                 <br>
                 <p>{{user.profile.bio}}</p>
                 <br>
@@ -23,9 +25,25 @@
         </div>
     </div>
     <div class="col-md-2"></div>
-    <a href="{% url 'update_profile' user.profile.username %}">
+
+    {% if profile.user == current_user%}
+
+    <a href="{% url 'update_profile' user.username%}">
         <button class="btn btn-primary">Update Profile</button>
     </a>
+
+    {% endif %}
 </div>
+
+{% else%}
+
+<div class="container">
+    <h3>Profile has not yet been created.</h3>
+    <a href="{% url 'updateProfile'%}">
+        <button class="btn btn-primary">Create Profile</button>
+    </a>
+</div>
+
+{% endif %}
 
 {% endblock %}
