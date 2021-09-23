@@ -31,7 +31,7 @@ def home(request):
     projects = Project.all_projects()
     #ratings = Project.ratings.get_ratings()
     profile = Profile.get_profile()
-    print(projects)
+    #print(projects)
 
     current_user = request.user
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def home(request):
 @login_required(login_url='/accounts/login/')
 def profile(request, username):
     try:
-        user = Profile.objects.get(username=username)
+        user = User.objects.get(username=username)
 
     except:
 
@@ -71,22 +71,66 @@ def profile(request, username):
     return render(request, 'profile.html', {"user":user,"profile":profile})
 
 
-@login_required(login_url='/accounts/login/')
-def update_profile(request, username):
-    user = User.objects.get(username=username)
+# @login_required(login_url='/accounts/login/')
+# def update_profile(request, username):
+#     user = User.objects.get(username=username)
 
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, request.user.profile)
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST, request.FILES, request.user.profile)
         
-        if form.is_valid():
-            form.save()
+#         if form.is_valid():
+#             form.save()
 
-            return redirect('profile', user.username)
+#             return redirect('profile', user.username)
 
-    else:
-        form = ProfileForm(request.user.profile)
+#     else:
+#         form = ProfileForm(request.user.profile)
 
-    return render(request, 'update_profile.html', {'form': form})
+#     return render(request, 'update_profile.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def update_profile(request,username):
+    current_user = request.user 
+    title = 'Update Profile'
+    try:
+
+        requested_profile = Profile.objects.get(user_id = current_user.id)
+        if request.method == 'POST':
+
+            form = ProfileForm(request.POST,request.FILES)
+
+            if form.is_valid():
+                requested_profile.username = form.cleaned_data['username']
+                requested_profile.profile_pic = form.cleaned_data['profile_photo']
+                requested_profile.bio = form.cleaned_data['bio']
+                requested_profile.email = form.cleaned_data['email']
+                requested_profile.contact = form.cleaned_data['contact']
+
+                requested_profile.save_profile()
+
+                return redirect(profile)
+        else:
+            
+            form = ProfileForm()
+
+    except:
+        if request.method == 'POST':
+
+            form = ProfileForm(request.POST,request.FILES)
+
+            if form.is_valid():
+
+                new_profile = Profile(username = form.cleaned_data['username'], profile_pic= form.cleaned_data['profile_pic'],bio = form.cleaned_data['bio'],  email = form.cleaned_data['email'], contact = form.cleaned_data['contact'],user = current_user)
+                new_profile.save_profile()
+
+                return redirect(profile)
+
+        else:
+
+            form = ProfileForm()
+
+    return render(request,'update_profile.html',{"title":title,"current_user":current_user,"form":form})
+
 
 
 @login_required(login_url='/accounts/login/')
