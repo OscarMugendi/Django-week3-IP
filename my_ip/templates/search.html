@@ -1,26 +1,37 @@
-{%extends 'base.html'%}
+{% extends 'base.html'%}
 {% block content %}
+{{ block.super}}
+{% load bootstrap3 %}
 
-<div class="container">
-    <h1 style="font-family: 'Dosis', sans-serif;"><strong> Projects Found </strong></h1>
-    <div class="row">
+<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
-        {% if projects %}
-        <div class="container">
-            <div class="card-columns">
+<div class="container mt-5">
+    <div class="row mt-5"></div>
+    <div class="row mt-5"></div>
+    <br>
+    <div class="row mt-5">
+        {% if searched_project %}
+        <h2>{{searched_project | length}} projects found.</h2>
 
-                {% for project in projects %}
-                <div class="card border-secondary">
-                    <p>Name: {{project.name}}</p>
-                    <p>Author: {{project.user}}</p>
-                </div>
-                {% endfor %}
-
-            </div>
-        </div>
+        {% else %}
+        <h2 style="text-align:center">No project found. {{message | title}}</h2>
 
         {% endif %}
     </div>
-</div>
 
+    <div class="row">
+        {% if searched_project %}
+            {% for project in searched_project %}
+
+            <div class="card border-secondary">
+              <div class="card-header">
+                <h2><a href="{{ project.title }}" target="_blank">{{project.title}}</a></h2>
+              </div>
+              <img class="card-img-top" src="{{project.project_image.url}}" size="100px200">
+            </div>
+            <div class="card-body"></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

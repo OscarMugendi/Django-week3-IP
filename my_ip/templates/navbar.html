@@ -21,12 +21,6 @@
 
         <a class="navbar-brand" href="{% url 'logout' %}"><b style="color:red">Logout</b></a>
 
-        {% else %}
-        <a class="navbar-brand" href="{% url 'registration_register' %}"><b>Register</b>&nbsp;&nbsp;</a>
-        <a class="navbar-brand" href="{% url 'login' %}"><b>Login</b>&nbsp;&nbsp;&nbsp;&nbsp;</a>
-
-        {% endif %}
-
         <div class="col-sm-4 col-md-4 navbar-right">
             <form class="navbar-form" role="search" action="{% url 'search' %}">
                 <div class="input-group">
@@ -37,6 +31,12 @@
                 </div>
             </form>
         </div>
+
+        {% else %}
+        <a class="navbar-brand" href="{% url 'registration_register' %}"><b>Register</b>&nbsp;&nbsp;</a>
+        <a class="navbar-brand" href="{% url 'login' %}"><b>Login</b>&nbsp;&nbsp;&nbsp;&nbsp;</a>
+
+        {% endif %}
         
     </div>
 </nav>

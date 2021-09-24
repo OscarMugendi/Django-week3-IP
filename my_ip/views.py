@@ -115,24 +115,20 @@ def single_project(request, title):
     return render (request, 'project.html', {'project':project})
 
 
+@login_required(login_url='/accounts/login/')
 def search_projects(request):
 
-    if request.method == 'GET':
+    if 'title' in request.GET and request.GET["title"]:
+        search_term = request.GET.get("title")
+        searched_project = Project.search_project(search_term)
+        message = search_term
 
-        title = request.GET.get("title")
-        results = Project.objects.filter(title__icontains=title).all()
-
-        print(results)
-
-        message = f'title'
-
-        return render(request, 'search.html',{'results': results,'message': message})
+        return render(request,'search.html',{"message":message, "searched_project":searched_project})
 
     else:
 
-        message = "Invalid Parameters!"
-
-    return render(request, 'search.html', {'message': message})
+        message = "Invalid search parameters!"
+        return render(request,'search.html', {"message":message})
 
 
 @login_required(login_url='/accounts/login/')
