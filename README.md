@@ -33,7 +33,7 @@ A live version of this application is available at:- https://my-ip-a-moringa-app
 
 # Known Bugs
 - Rate/Review functionality has broken down.
-- As a result, IP scores have been removed.
+- As a result, project scores have been removed.
 
 # Authors
 - Oscar Mugendi
