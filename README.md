@@ -29,7 +29,7 @@ A Django application designed to rate, review and archive user projects.
 - Run the application.
 
 # Live Page
-A live version of this application is not yet available.
+A live version of this application is available at:- https://my-ip-a-moringa-app.herokuapp.com/
 
 # Known Bugs
 -
