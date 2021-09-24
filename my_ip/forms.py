@@ -20,7 +20,7 @@ class ProjectForm(forms.ModelForm):
 
 class ProfileForm(forms.Form):
 
-    profile_pic = forms.ImageField(label = 'Image Field') 
+    profile_pic = forms.ImageField(required = False, label = 'Image Field') 
     bio = forms.CharField(label='Bio',max_length=300)
     email = forms.EmailField(label='Email')
     contact = forms.IntegerField(label='Contacts')

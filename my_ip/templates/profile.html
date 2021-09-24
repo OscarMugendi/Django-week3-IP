@@ -32,13 +32,10 @@
     </div>
     <div class="col-md-2"></div>
 
-    {% if profile.user == current_user%}
 
     <a href="{% url 'update_profile' user.id%}">
         <button class="btn btn-primary">Update Profile</button>
     </a>
-
-    {% endif %}
 
     <div class="col-11">
 

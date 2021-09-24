@@ -74,7 +74,7 @@ def update_profile(request,id):
             form = ProfileForm(request.POST,request.FILES)
 
             if form.is_valid():
-                requested_profile.profile_pic = form.cleaned_data['profile_photo']
+                requested_profile.profile_pic = form.cleaned_data['profile_pic']
                 requested_profile.bio = form.cleaned_data['bio']
                 requested_profile.email = form.cleaned_data['email']
                 requested_profile.contact = form.cleaned_data['contact']
