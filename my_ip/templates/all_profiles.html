@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load bootstrap3 %}
+{% block content %}
+
+<h2>Profiles</h2>
+{% endblock %}
+{% block content %}
+
+{% if all_profiles %}
+
+<div class="row">
+    {% for profile in all_profiles %}
+    <div class="col-xs-6 col-lg-4">
+        <h4><a href="{% url 'all_profiles' user.username %}">
+                {{ user.username }}
+            </a>
+        </h4>
+        <h5>{{ user.profile.email }} </h5>
+        <h5>{{ user.profile.contact }} </h5>
+    </div>
+    {% endfor %}
+
+</div>
+{% else %}
+
+<p>No profiles available.</p>
+{% endif %}
+
+{% endblock %}
+
+{% endblock %}
