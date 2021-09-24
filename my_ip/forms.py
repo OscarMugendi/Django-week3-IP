@@ -19,12 +19,7 @@ class ProjectForm(forms.ModelForm):
 
 
 class ProfileForm(forms.Form):
-    # class Meta:
-    #     model = Profile
 
-    #     fields = ['username', 'profile_pic', 'bio', 'email', 'contact']
-
-    #username = forms.CharField(label='Username',max_length = 30)
     profile_pic = forms.ImageField(label = 'Image Field') 
     bio = forms.CharField(label='Bio',max_length=300)
     email = forms.EmailField(label='Email')

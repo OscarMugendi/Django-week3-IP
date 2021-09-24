@@ -12,8 +12,8 @@
 <div class="row">
     {% for profile in all_profiles %}
     <div class="col-xs-6 col-lg-4">
-        <h4><a href="{% url 'all_profiles' user.username %}">
-                {{ user.username }}
+        <h4><a href="{% url 'all_profiles' user %}">
+                {{ user }}
             </a>
         </h4>
         <h5>{{ user.profile.email }} </h5>

@@ -18,7 +18,7 @@
             {% endif %}
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
-                <h5 style="font-size:35px;"><b>{{user.username}}</b></h5>
+                <h5 style="font-size:35px;"><b>{{user}}</b></h5>
                 <br>
                 <p><b>Email Address: </b>{{user.profile.email}}</p>
                 <br>
@@ -33,7 +33,7 @@
 
     {% if profile.user == current_user%}
 
-    <a href="{% url 'update_profile' user.username%}">
+    <a href="{% url 'update_profile' user.id%}">
         <button class="btn btn-primary">Update Profile</button>
     </a>
 
@@ -46,9 +46,14 @@
             <div class="card-body">
                 <div class="media">
                     <div class="media-left media-top">
+                        
+                        {% if project.project_image %}
+                            
                         <img class="img-fluid rounded-circle" src="{{project.project_image.url}}" style="height: 300px;width: 300px;">
                         <br>
                         <br>
+                        {% endif %}
+
                         <button class="button btn-success"><a href="{{ project.github_link }}" target="_blank">Github Repository</a></button>
                         <br>
                         <br>
@@ -57,7 +62,7 @@
 
                     <div class="media-body">
                         <h3 class="media-heading" style="padding:10px; margin:5px"> <a href="/project/{{project.title}}"> <b>{{ project.title }}</b></a></h3>
-                        <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.username}}"><b>{{ project.user.username }}</b></a></h4>
+                        <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.id}}"><b>{{ project.user }}</b></a></h4>
                         <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
                     </div>
                 </div>
@@ -79,7 +84,7 @@
     <br>
     {% if profile.user == current_user%}
 
-    <a href="{% url 'update_profile' user.username %}">
+    <a href="{% url 'update_profile' user %}">
         <button class="btn btn-primary">Create Profile</button>
     </a>
 

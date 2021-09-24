@@ -30,7 +30,7 @@
 {% if user.is_authenticated%}
 
 <div class="container text-center">
-    <a href="{% url 'update_profile' user.username%}">
+    <a href="{% url 'update_profile' user.id%}">
         <button class="btn btn-info btn-lg">Update your Profile</button>
     </a>
 </div>
@@ -69,7 +69,7 @@
 
                         <div class="media-body">
                             <h3 class="media-heading" style="padding:10px; margin:5px"> <a href="/project/{{project.title}}"> <b>{{ project.title }}</b></a></h3>
-                            <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.username}}"><b>{{ project.user.profile.username }}</b></a></h4>
+                            <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.id}}"><b>{{ project.user }}</b></a></h4>
                             <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
                         </div>
                     </div>

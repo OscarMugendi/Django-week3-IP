@@ -43,22 +43,27 @@ def home(request):
 
 
 @login_required(login_url='/accounts/login/')
-def profile(request, username):
-    try:
-        user = User.objects.get(username=username)
-        profile_data = user.profile.objects.get()
+def profile(request, id):
+    user = request.user
+    user_id = user.id
 
-        print(profile_data)
+    projects = Project.objects.filter(user=user)
+    profile = Profile.objects.get(user=user)
+    userf = User.objects.get(pk=user_id)
 
-    except:
+    if userf:
+        print('User found!')
+        profile = Profile.objects.get(user=userf)
 
-        raise Http404()
+    else:
 
-    return render(request, 'profile.html', {"user":user,"profile":profile})
+        print('User not found!')
+
+    return render (request, 'profile.html', {'projects':projects, 'profile':profile, 'user':user,})
 
 
 @login_required(login_url='/accounts/login/')
-def update_profile(request,username):
+def update_profile(request,id):
     current_user = request.user 
     title = 'Update Profile'
     try:
@@ -69,7 +74,6 @@ def update_profile(request,username):
             form = ProfileForm(request.POST,request.FILES)
 
             if form.is_valid():
-                #requested_profile.username = form.cleaned_data['username']
                 requested_profile.profile_pic = form.cleaned_data['profile_photo']
                 requested_profile.bio = form.cleaned_data['bio']
                 requested_profile.email = form.cleaned_data['email']
@@ -103,19 +107,12 @@ def update_profile(request,username):
     return render(request,'update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
 
-def project(request, title):
+def single_project(request, title):
+    project = Project.objects.get(title=title)
 
-    try:
-        current_project = Project.objects.get(title=title)
-        project_data = current_project.objects.get()
+    current_user = request.user
 
-        print(project_data)
-
-    except:
-
-        raise Http404()
-
-    return render(request, 'project.html', {"current_project":current_project})
+    return render (request, 'project.html', {'project':project})
 
 
 def search_projects(request):

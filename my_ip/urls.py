@@ -7,10 +7,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     url('^$', views.home, name='home'),
     path('account/', include('django.contrib.auth.urls')),
-    path('profile/<username>/', views.profile, name='profile'),
-    path('profile/<username>/update/', views.update_profile, name='update_profile'),
+    path('profile/<id>/', views.profile, name='profile'),
+    path('profile/<id>/update/', views.update_profile, name='update_profile'),
     path('project/new/', views.new_project, name='new_project'),
-    path('project/<title>/', views.project, name='project'),
+    path('project/<title>/', views.single_project, name='project'),
     url('search/',views.search_projects,name="search"),
     url(r'^api/profiles/$', views.ProfileView.as_view(), name='api_profiles'),
     url(r'^api/projects/$', views.ProjectView.as_view(), name='api_projects')

@@ -19,7 +19,7 @@ class Project(models.Model):
     title=models.CharField(max_length=30)
     user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="project")
 
-    project_image=models.ImageField(upload_to='images/projects/', blank=True)
+    project_image=models.ImageField(upload_to='images/projects/', blank=True, default = 0)
     description=models.TextField(max_length=320, blank=True)
     live_link=models.URLField(blank=True)
     github_link=models.URLField(blank=True)
@@ -41,6 +41,11 @@ class Project(models.Model):
     def all_projects(cls):
         return cls.objects.all()
 
+    @classmethod
+    def get_project_by_id(cls, id):
+        projects = cls.objects.get(pk=id)
+        return projects
+
     def save_project(self):
         self.save()
 
@@ -54,7 +59,6 @@ class Profile(models.Model):
         db_table = 'profile'
 
     user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    #username = models.CharField(max_length=30, blank=True, default='user')
 
     bio = models.CharField(max_length=500, null=True, blank=True, default="bio")
     profile_pic = models.ImageField(upload_to='images/profiles/', blank=True, default = 0)
@@ -81,7 +85,7 @@ class Profile(models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return self.user
         
 
 

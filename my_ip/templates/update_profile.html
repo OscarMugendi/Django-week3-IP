@@ -11,7 +11,7 @@
         <br>
 
         <div class="panel-body">
-            <form action="/profile/<username>/update/" method="post">
+            <form action="/profile/<id>/update/" method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <div class="form-group">
@@ -20,7 +20,7 @@
                 <input type="hidden" name="next" value="{{next}}">
             </form>
             <br>
-            <p><a href="{% url 'profile' user.username %}">Back to Profile</a></p>
+            <p><a href="{% url 'profile' user.id %}">Back to Profile</a></p>
         </div>
     
         <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"></div>
