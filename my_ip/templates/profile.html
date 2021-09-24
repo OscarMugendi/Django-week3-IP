@@ -10,6 +10,7 @@
         <div class="row">
             
             {% if user.profile.profile_pic %}
+            <br>
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <img src="{{user.profile.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
@@ -40,6 +41,7 @@
     {% endif %}
 
     <div class="col-11">
+
         {% for project in projects %}
         <br>
         <div class="card mr-0" style="max-width:70rem; margin-top:5px;">

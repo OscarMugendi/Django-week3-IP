@@ -8,6 +8,9 @@
     <br>
 
     <div class="card">
+        
+        {% if project.project_image %}
+            
         <div class="view overlay">
             <img class="card-img-top" width="100%"
                 src="{{ project.project_image.url }}" alt="">
@@ -15,6 +18,8 @@
         <br>
         <hr>
         <br>
+
+        {% endif %}
         
         <div class="card-body">
             <br>
