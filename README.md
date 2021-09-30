@@ -32,8 +32,7 @@ A Django application designed to rate, review and archive user projects.
 A live version of this application is available at:- https://my-ip-a-moringa-app.herokuapp.com/
 
 # Known Bugs
-- Rate/Review functionality has broken down.
-- As a result, project scores have been removed.
+- The ratings/reviews functionality has broken down.
 
 # Authors
 - Oscar Mugendi
