@@ -117,10 +117,9 @@ def search_projects(request):
 
         return render(request,'search.html',{"message":message, "searched_project":searched_project})
 
-    else:
+    message = "Invalid search parameters!"
 
-        message = "Invalid search parameters!"
-        return render(request,'search.html', {"message":message})
+    return render(request,'search.html', {"message":message})
 
 
 @login_required(login_url='/accounts/login/')
