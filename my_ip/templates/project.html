@@ -14,6 +14,37 @@
         <div class="view overlay">
             <img class="card-img-top" width="100%"
                 src="{{ project.project_image.url }}" alt="">
+                <a href="">
+
+                <div class="mask rgba-black-slight">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 d-flex flex-row mx-auto" style="margin-top:20%">
+                                {% for rating in project.rating.all %}
+
+                                {% if forloop.counter is project.rating.all.count %}
+    
+                                <div id="design">{{ project.rating.design_average}}<br>
+                                    <span class="rates">Design</span>
+                                </div>
+                                <div id="usable" class="mx-auto">{{ project.rating.usability_average }}<br>
+                                    <span class="rates">Usability</span>
+                                </div>
+                                <div id="contente">{{ project.rating.content_average }}<br>
+                                    <span class="rates">Content</span>
+                                </div>
+    
+                                {% endif %}
+    
+                                {% endfor %}
+                            </div>
+    
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
         <br>
         <hr>
@@ -22,20 +53,74 @@
         {% endif %}
         
         <div class="card-body">
+            <h3 style="text-align:center"><b>Details</b></h3>
             <br>
-            <h5 class="card-title">
-                <a href="{{ project.live_link }}" style="float:center" class="btn btn-sm btn-info mr-4"> Live Page </a>
-            </h5>
-            <br>
-            <h5 class="card-title">
-                <a href="{{ project.github_link }}" style="float:center" class="btn btn-sm btn-info mr-4"> Github Repository </a>
-            </h5>
             <br>
             <p>{{ project.description }}</p>
-            <hr>
+            <br>
+            <br>
             <p class="card-text ">
                 By <b>{{project.user}}</b> <span style="float:right"><b>Posted on: </b>{{project.date|date}}</span>
             </p>
+            <br>
+            <br>
+            <hr>
+            <br>
+            <br>
+            <h5 class="card-title text-center">
+                <a href="{{ project.live_link }}" style="float:center" class="btn btn-sm btn-info mr-4"> Live Page </a>
+            </h5>
+            <br>
+            <h5 class="card-title text-center">
+                <a href="{{ project.github_link }}" style="float:center" class="btn btn-sm btn-info mr-4"> Github Repository </a>
+            </h5>
+            <br>
+
+            <div class="row">
+                <br>
+                <hr>
+                <br>
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h3 class="D-block mx-auto text-center"><b>Reviews</b></h3>
+                    <br>
+                    {% for rating in project.rating.all %}
+
+                    {% if forloop.counter is project.rating.all.count %}
+
+                    <a class="btn btn-info btn-sm" ><h5>{{ project.rating.score }}</h5>
+                        <span class="sc">Average Score</span>
+                    </a>
+                    <a class="btn btn-outline-success btn-sm" ><h5>{{ project.rating.design_average }}</h5>
+                        <span class="sc">Design Average</span>
+                    </a>
+                    <a class="btn btn-outline-primary btn-sm" id="u"><h5>{{ project.rating.usability_average }}</h5>
+                        <span class="sc">Usability Average</span>
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" id="c"><h5>{{ project.rating.content_average }}</h5>
+                        <span class="sc">Content Average</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <br>
+            <br>
+
+            {% if rating_status %}
+            <h5 style="text-align:center"><b>Already Reviewed.</b></h5>
+            {% else %}
+
+                {% if user.is_authenticated %}
+                <div class="text-center">
+                    <a href="{% url 'review' project.id%}">
+                        <button class="btn btn-info btn-lg">Review</button>
+                    </a>
+                </div>
+                {% endif %}
+
+            {% endif %}
         </div>
 
     </div>

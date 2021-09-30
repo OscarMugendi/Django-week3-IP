@@ -29,23 +29,14 @@
 <br>
 {% if user.is_authenticated%}
 
-<div class="container text-center">
-    <a href="{% url 'update_profile' user.id%}">
-        <button class="btn btn-info btn-lg">Update your Profile</button>
-    </a>
-</div>
-<br>
-<br>
-<hr>
-<br>
-
 <div class="container">
     <div class="row container">
         <div class="col-1">
             <h1 style="text-align:center"><b>Project Archives</b></h1>
+            <br>
+            <hr>
         </div>
         <br>
-        <hr>
         <br>
         <div class="col-11">
             {% for project in projects %}
@@ -71,12 +62,25 @@
                             <h3 class="media-heading" style="padding:10px; margin:5px"> <a href="/project/{{project.title}}"> <b>{{ project.title }}</b></a></h3>
                             <h4 class="media-heading" style="padding:10px; margin:5px">Developed by: <a href="/profile/{{project.user.id}}"><b>{{ project.user }}</b></a></h4>
                             <h6 class="media-content" style="padding:10px; margin:5px">{{ project.description }}</h6>
+                            <button class=" one d-flex justify-content-end btn-primary btn-lg" style="float:right; padding:10px; margin:5px">Votes: {{ project.rating.count| floatformat  }}</button>
+                            <button class="five d-flex justify-content-end btn-danger btn-lg" style="float:right; padding:10px; margin:5px">Score: {{ project.rating.score| floatformat  }}</button>
                         </div>
                     </div>
                     <br>
                     <hr>
                     <br>
-  
+                    <div class="rating-section">
+                        {% for rating in ratings %}
+                        {% if project.id == rating.project.id %}
+                        <p>[
+                            Usability: {{rating.usability}},
+                            Content: {{rating.content}},
+                            Design: {{rating.design}}]
+                        </p>
+                        <p>{{ project.average_score | floatformat }}</p>
+                        {% endif %}
+                        {%endfor%}
+                    </div>
                 </div>
             </div>
             {% endfor %}
